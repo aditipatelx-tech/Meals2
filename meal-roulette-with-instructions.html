@@ -1,0 +1,488 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Meal Roulette</title>
+  <script>
+    if (window.location.protocol === 'file:') {
+      document.write('<h2 style="color:red;text-align:center;padding:20px;">Please open in Safari via "Share → Open in Safari" or host online.</h2>');
+    }
+  </script>
+  <style>
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+    body {
+      font-family: 'Poppins', sans-serif;
+      background: linear-gradient(135deg, #ff9a9e, #fad0c4);
+      color: #333;
+      text-align: center;
+      padding: 40px 20px;
+      margin: 0;
+    }
+    h1 { font-size: 2.5rem; margin-bottom: 10px; color: #d63384; }
+    .container {
+      max-width: 600px;
+      margin: 40px auto;
+      background: white;
+      padding: 30px;
+      border-radius: 20px;
+      box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+    }
+    button {
+      background: #d63384;
+      color: white;
+      border: none;
+      padding: 15px 30px;
+      font-size: 1.3rem;
+      border-radius: 50px;
+      cursor: pointer;
+      margin-top: 20px;
+    }
+    button:hover { background: #b0246b; transform: scale(1.05); }
+    .meal { margin-top: 30px; font-size: 1.8rem; font-weight: 600; color: #d63384; }
+    .ingredients, .instructions {
+      text-align: left;
+      background: #f8f9fa;
+      padding: 15px;
+      border-radius: 12px;
+      margin-top: 15px;
+      font-size: 1rem;
+      line-height: 1.6;
+    }
+    .instructions {
+      background: #e8f5e9;
+      border-left: 4px solid #4caf50;
+    }
+    .instructions strong {
+      color: #2e7d32;
+    }
+    .section-title {
+      font-weight: 600;
+      color: #d63384;
+      margin: 20px 0 8px;
+      font-size: 1.1rem;
+    }
+  </style>
+</head>
+<body>
+
+  <h1>Meal Roulette</h1>
+  <p>Click to randomly pick today’s meal + ingredients + cooking steps (for 2)</p>
+
+  <div class="container">
+    <div id="result">
+      <p><em>Click the button to roll...</em></p>
+    </div>
+    <button onclick="generateMeal()">Roll the Dice</button>
+  </div>
+
+  <script>
+    const meals = [
+      {
+        name: "Uttapam",
+        ingredients: "Rice (½ cup), Urad dal (¼ cup), Onion, Tomato, Green chili, Coriander, Oil, Salt",
+        instructions: `
+          <strong>1.</strong> Soak rice and urad dal for 4–5 hours. Grind into a thick batter with salt. Ferment overnight.<br>
+          <strong>2.</strong> Chop onion, tomato, green chili, coriander finely.<br>
+          <strong>3.</strong> Heat a non-stick tawa, pour a ladle of batter, spread slightly thick.<br>
+          <strong>4.</strong> Sprinkle toppings, drizzle oil, cook on medium flame until golden.<br>
+          <strong>5.</strong> Flip and cook other side. Serve hot with chutney.
+        `
+      },
+      {
+        name: "Roti + Bhindi + Salad + Dahi",
+        ingredients: "Wheat flour (1 cup), Bhindi (250g), Onion, Tomato, Cucumber, Dahi (200g), Oil, Spices",
+        instructions: `
+          <strong>Roti:</strong> Knead wheat flour with water → roll into circles → cook on hot tawa both sides.<br>
+          <strong>Bhindi:</strong> Wash, dry, chop bhindi → sauté in oil with cumin, turmeric, coriander powder, salt → cook covered 10 mins.<br>
+          <strong>Salad:</strong> Chop onion, tomato, cucumber → mix with salt, lemon.<br>
+          <strong>Serve with dahi.</strong>
+        `
+      },
+      {
+        name: "Pav Bhaaji + Onion + Lemon",
+        ingredients: "Pav (4), Potato (2), Peas, Cauliflower, Tomato (3), Onion (2), Lemon (1), Butter, Pav bhaji masala",
+        instructions: `
+          <strong>1.</strong> Boil potatoes, peas, cauliflower → mash roughly.<br>
+          <strong>2.</strong> Sauté onion, tomato, pav bhaji masala in butter → add mashed veggies → cook 10 mins.<br>
+          <strong>3.</strong> Slit pav, toast in butter.<br>
+          <strong>4.</strong> Serve hot with chopped onion, lemon wedge.
+        `
+      },
+      {
+        name: "Moong Daal Chila + Green Chutney",
+        ingredients: "Moong dal (½ cup), Green chili, Ginger, Coriander, Mint, Lemon, Oil",
+        instructions: `
+          <strong>1.</strong> Soak moong dal 2 hrs → grind with green chili, ginger, salt.<br>
+          <strong>2.</strong> Spread batter on hot tawa like dosa → cook both sides with oil.<br>
+          <strong>3.</strong> Blend mint, coriander, green chili, lemon, salt for chutney.<br>
+          <strong>4.</strong> Serve hot.
+        `
+      },
+      {
+        name: "Paneer Bhurji + Paratha + Chaas",
+        ingredients: "Paneer (200g), Onion, Tomato, Capsicum, Wheat flour (1 cup), Buttermilk (300ml)",
+        instructions: `
+          <strong>Paratha:</strong> Knead flour → stuff with spiced paneer bhurji → roll & cook.<br>
+          <strong>Bhurji:</strong> Sauté onion, capsicum, tomato → add crumbled paneer, spices → cook 5 mins.<br>
+          <strong>Chaas:</strong> Blend buttermilk with roasted cumin, salt.
+        `
+      },
+      {
+        name: "Vaghareli Khichdi + Masala Chaas + Papad",
+        ingredients: "Rice (½ cup), Moong dal (¼ cup), Potato, Peas, Spices, Buttermilk, Papad (4)",
+        instructions: `
+          <strong>1.</strong> Wash rice & dal → sauté cumin, potato, peas in ghee.<br>
+          <strong>2.</strong> Add rice, dal, water (3 cups), turmeric, salt → pressure cook 3 whistles.<br>
+          <strong>3.</strong> Roast papad. Blend chaas with spices.
+        `
+      },
+      {
+        name: "Mix Veg Millet Paratha + Dahi",
+        ingredients: "Bajra/Jowar flour (1 cup), Carrot, Beans, Peas, Dahi (200g)",
+        instructions: `
+          <strong>1.</strong> Grate carrot, chop beans, boil peas → sauté with spices.<br>
+          <strong>2.</strong> Knead millet flour with warm water → stuff with veg mix → roll & cook on tawa.<br>
+          <strong>3.</strong> Serve with dahi.
+        `
+      },
+      {
+        name: "Jita Rice + Moong Daal + Papad + Salad",
+        ingredients: "Rice (½ cup), Moong dal (¼ cup), Onion, Tomato, Cucumber, Papad",
+        instructions: `
+          <strong>1.</strong> Cook rice and moong dal separately with salt.<br>
+          <strong>2.</strong> Temper dal with cumin, red chili.<br>
+          <strong>3.</strong> Roast papad. Chop salad. Serve together.
+        `
+      },
+      {
+        name: "Pink Sauce Pasta + Garlic Bread",
+        ingredients: "Pasta (150g), Milk (1 cup), Cheese, Tomato puree, Butter, Garlic bread (4 slices)",
+        instructions: `
+          <strong>1.</strong> Boil pasta. Toast garlic bread.<br>
+          <strong>2.</strong> Sauté garlic in butter → add tomato puree, milk, cheese → pink sauce.<br>
+          <strong>3.</strong> Toss pasta in sauce. Serve with bread.
+        `
+      },
+      {
+        name: "Paneer Veg Sandwich + Chutney",
+        ingredients: "Bread (6 slices), Paneer (100g), Capsicum, Onion, Green chutney",
+        instructions: `
+          <strong>1.</strong> Crumble paneer, mix with chopped capsicum, onion, chutney.<br>
+          <strong>2.</strong> Apply chutney on bread → add filling → grill/toast.<br>
+          <strong>3.</strong> Cut and serve.
+        `
+      },
+      {
+        name: "Jeera Rice + Dal Fry + Chaas",
+        ingredients: "Rice (½ cup), Toor dal (½ cup), Jeera, Buttermilk (300ml)",
+        instructions: `
+          <strong>1.</strong> Cook rice with jeera tempering.<br>
+          <strong>2.</strong> Pressure cook dal → temper with ghee, cumin, red chili, garlic.<br>
+          <strong>3.</strong> Blend chaas with salt, cumin.
+        `
+      },
+      {
+        name: "Oats & Banana Smoothie",
+        ingredients: "Oats (½ cup), Banana (2), Milk (1 glass), Honey",
+        instructions: `
+          <strong>1.</strong> Blend oats, banana, milk, honey until smooth.<br>
+          <strong>2.</strong> Serve chilled.
+        `
+      },
+      {
+        name: "Loki Chana Daal + Rotli + Salad",
+        ingredients: "Loki (250g), Chana dal (½ cup), Wheat flour (1 cup), Onion, Tomato, Cucumber",
+        instructions: `
+          <strong>1.</strong> Soak chana dal 1 hr → cook with peeled, chopped loki, spices.<br>
+          <strong>2.</strong> Make soft rotis. Chop salad.<br>
+          <strong>3.</strong> Serve hot.
+        `
+      },
+      {
+        name: "Masala Dosa",
+        ingredients: "Dosa batter (rice+urad), Potato (2), Onion, Mustard seeds, Oil",
+        instructions: `
+          <strong>1.</strong> Boil and mash potatoes with onion, mustard, curry leaves, turmeric.<br>
+          <strong>2.</strong> Spread dosa batter on hot tawa → add filling → fold.<br>
+          <strong>3.</strong> Serve with chutney, sambar.
+        `
+      },
+      {
+        name: "Bhakhri + Sev Tameta + Kanda + Achar",
+        ingredients: "Bajra flour (1 cup), Tomato (3), Sev, Onion, Pickle",
+        instructions: `
+          <strong>1.</strong> Knead bajra flour with warm water → roll thick bhakhri → cook on tawa.<br>
+          <strong>2.</strong> Cook tomato with spices → top with sev.<br>
+          <strong>3.</strong> Serve with onion, pickle.
+        `
+      },
+      {
+        name: "Masala Bhaat + Raita",
+        ingredients: "Rice (½ cup), Ivy gourd/Potato, Spices, Dahi, Cucumber",
+        instructions: `
+          <strong>1.</strong> Sauté ivy gourd or potato with goda masala.<br>
+          <strong>2.</strong> Add rice, water → cook until done.<br>
+          <strong>3.</strong> Mix dahi with grated cucumber, salt.
+        `
+      },
+      {
+        name: "Thepla + Chai",
+        ingredients: "Wheat flour (1 cup), Methi, Spices, Tea, Milk, Sugar",
+        instructions: `
+          <strong>1.</strong> Knead flour with chopped methi, spices → roll thin → cook on tawa.<br>
+          <strong>2.</strong> Boil tea with milk, sugar, ginger.
+        `
+      },
+      {
+        name: "Thepla + Aloo Bhaji + Dahi + Achar",
+        ingredients: "Wheat flour (1 cup), Methi, Potato (2), Dahi, Pickle",
+        instructions: `
+          <strong>1.</strong> Make methi thepla (as above).<br>
+          <strong>2.</strong> Boil and mash potatoes → temper with mustard, curry leaves.<br>
+          <strong>3.</strong> Serve with dahi, pickle.
+        `
+      },
+      {
+        name: "Palak Corn Sabji + Pulav + Raita",
+        ingredients: "Palak (200g), Corn (1 cup), Rice, Dahi, Cucumber",
+        instructions: `
+          <strong>1.</strong> Blanch palak → sauté with corn, garlic, spices.<br>
+          <strong>2.</strong> Cook rice with whole spices for pulao.<br>
+          <strong>3.</strong> Mix raita.
+        `
+      },
+      {
+        name: "Noodles + Soup",
+        ingredients: "Noodles (150g), Mixed veg, Soy sauce, Veg stock (carrot, onion, celery)",
+        instructions: `
+          <strong>1.</strong> Boil noodles. Stir-fry veggies, add soy sauce.<br>
+          <strong>2.</strong> Simmer stock with veggies → strain or keep chunky.
+        `
+      },
+      {
+        name: "Kanda Poha",
+        ingredients: "Poha (1 cup), Onion (2), Peanut, Mustard, Curry leaves",
+        instructions: `
+          <strong>1.</strong> Rinse poha → drain.<br>
+          <strong>2.</strong> Temper mustard, curry leaves, onion, peanuts → add poha, salt, lemon.<br>
+          <strong>3.</strong> Garnish with coriander.
+        `
+      },
+      {
+        name: "Loko Sabji + Roti + Salad",
+        ingredients: "Bottle gourd (250g), Spices, Wheat flour, Onion, Tomato, Cucumber",
+        instructions: `
+          <strong>1.</strong> Peel and chop loki → cook with spices, tomato.<br>
+          <strong>2.</strong> Make soft rotis. Chop salad.
+        `
+      },
+      {
+        name: "Bengan Bharta + Roti",
+        ingredients: "Brinjal (1 large), Onion, Tomato, Wheat flour",
+        instructions: `
+          <strong>1.</strong> Roast brinjal on flame → peel → mash.<br>
+          <strong>2.</strong> Sauté onion, tomato, spices → mix with mashed brinjal.<br>
+          <strong>3.</strong> Serve with hot rotis.
+        `
+      },
+      {
+        name: "Paneer Toast",
+        ingredients: "Bread (4 slices), Paneer (100g), Butter, Spices",
+        instructions: `
+          <strong>1.</strong> Crumble paneer with spices.<br>
+          <strong>2.</strong> Apply on bread → toast in butter both sides.
+        `
+      },
+      {
+        name: "Bajra Rotli + Dahi Tikhari + Garlic Chutney",
+        ingredients: "Bajra flour (1 cup), Dahi, Red chili, Garlic",
+        instructions: `
+          <strong>1.</strong> Knead bajra flour with hot water → roll thick rotli → cook.<br>
+          <strong>2.</strong> Mix dahi with red chili powder.<br>
+          <strong>3.</strong> Grind garlic, red chili, salt for chutney.
+        `
+      },
+      {
+        name: "Beans & Carrot Upma",
+        ingredients: "Suji (1 cup), French beans, Carrot, Mustard, Curry leaves",
+        instructions: `
+          <strong>1.</strong> Roast suji until golden.<br>
+          <strong>2.</strong> Sauté mustard, curry leaves, chopped beans, carrot.<br>
+          <strong>3.</strong> Add water, salt → stir in suji → cook covered.
+        `
+      },
+      {
+        name: "Sautéed Veg with Grilled Paneer",
+        ingredients: "Mixed veg, Paneer (150g), Butter, Herbs",
+        instructions: `
+          <strong>1.</strong> Cube paneer → grill with butter, herbs.<br>
+          <strong>2.</strong> Sauté mixed veggies in butter, garlic, salt.<br>
+          <strong>3.</strong> Serve together.
+        `
+      },
+      {
+        name: "Aloo Matar Sabji + Paratha",
+        ingredients: "Potato (2), Peas (½ cup), Wheat flour (1 cup)",
+        instructions: `
+          <strong>1.</strong> Boil potatoes → sauté with peas, tomato, spices.<br>
+          <strong>2.</strong> Make plain or stuffed paratha.
+        `
+      },
+      {
+        name: "Veg Biryani + Raita",
+        ingredients: "Rice (½ cup), Mixed veg, Spices, Dahi, Onion",
+        instructions: `
+          <strong>1.</strong> Sauté veggies with biryani masala.<br>
+          <strong>2.</strong> Layer with half-cooked rice → dum cook 15 mins.<br>
+          <strong>3.</strong> Serve with onion raita.
+        `
+      },
+      {
+        name: "Aloo Gobi Sabji + Roti + Salad + Chaas",
+        ingredients: "Potato, Cauliflower, Wheat flour, Salad, Buttermilk",
+        instructions: `
+          <strong>1.</strong> Chop aloo & gobi → sauté with cumin, turmeric, garam masala.<br>
+          <strong>2.</strong> Make rotis. Chop salad. Blend chaas.
+        `
+      },
+      {
+        name: "Corn & Spinach Sandwich",
+        ingredients: "Bread, Corn, Palak, Cheese",
+        instructions: `
+          <strong>1.</strong> Sauté spinach and corn with garlic.<br>
+          <strong>2.</strong> Place between bread with cheese → grill.
+        `
+      },
+      {
+        name: "Gatte ki Sabji + Roti + Chaas + Achar",
+        ingredients: "Besan (1 cup), Dahi, Spices, Wheat flour, Buttermilk, Pickle",
+        instructions: `
+          <strong>1.</strong> Make besan dough → shape into cylinders → boil → cut into gatte.<br>
+          <strong>2.</strong> Cook in spiced dahi gravy.<br>
+          <strong>3.</strong> Serve with roti, chaas, pickle.
+        `
+      },
+      {
+        name: "Ragda Pattice",
+        ingredients: "White peas (½ cup), Potato (3), Spices, Tamarind chutney",
+        instructions: `
+          <strong>1.</strong> Soak & cook peas with spices (ragda).<br>
+          <strong>2.</strong> Mash boiled potatoes → make patties → shallow fry.<br>
+          <strong>3.</strong> Serve patties over ragda → top with chutney, onion.
+        `
+      },
+      {
+        name: "Onion Paratha",
+        ingredients: "Wheat flour, Onion (2), Spices",
+        instructions: `
+          <strong>1.</strong> Mix chopped onion, spices into dough or stuff.<br>
+          <strong>2.</strong> Roll and cook on tawa with ghee.
+        `
+      },
+      {
+        name: "Burger + Salad",
+        ingredients: "Burger buns (2), Potato patty, Lettuce, Tomato, Cucumber",
+        instructions: `
+          <strong>1.</strong> Mash boiled potato with spices → shape patties → shallow fry.<br>
+          <strong>2.</strong> Toast buns → assemble with patty, veggies, sauce.
+        `
+      },
+      {
+        name: "Rice Kadhi",
+        ingredients: "Rice (½ cup), Dahi (1 cup), Besan, Spices",
+        instructions: `
+          <strong>1.</strong> Cook rice.<br>
+          <strong>2.</strong> Whisk dahi + besan + water → cook with tempering until thick.
+        `
+      },
+      {
+        name: "Mix Veg Bhakhri Pizza",
+        ingredients: "Bajra flour, Mixed veg, Cheese, Pizza sauce",
+        instructions: `
+          <strong>1.</strong> Make thick bhakhri base.<br>
+          <strong>2.</strong> Spread sauce → top with veggies, cheese → bake or tawa-cook covered.
+        `
+      },
+      {
+        name: "Palak Daal + Rice",
+        ingredients: "Palak, Toor dal, Rice",
+        instructions: `
+          <strong>1.</strong> Cook dal with turmeric.<br>
+          <strong>2.</strong> Sauté chopped palak with garlic → mix into dal.<br>
+          <strong>3.</strong> Serve with rice.
+        `
+      },
+      {
+        name: "Dum Aloo + Roti",
+        ingredients: "Baby potato (250g), Spices, Wheat flour",
+        instructions: `
+          <strong>1.</strong> Boil baby potatoes → fry lightly.<br>
+          <strong>2.</strong> Cook in rich tomato-onion gravy with spices.<br>
+          <strong>3.</strong> Serve with roti.
+        `
+      },
+      {
+        name: "Veg Paneer Wrap + Salad",
+        ingredients: "Roti, Paneer, Veg, Mayo, Salad",
+        instructions: `
+          <strong>1.</strong> Sauté paneer and veggies with spices.<br>
+          <strong>2.</strong> Spread mayo on roti → add filling → roll.<br>
+          <strong>3.</strong> Serve with salad.
+        `
+      },
+      {
+        name: "Fried Rice + Soup",
+        ingredients: "Rice, Mixed veg, Soy sauce, Veg stock",
+        instructions: `
+          <strong>1.</strong> Stir-fry veggies → add cooked rice, soy sauce.<br>
+          <strong>2.</strong> Simmer stock with veggies.
+        `
+      },
+      {
+        name: "Undhiyu + Roti",
+        ingredients: "Surti papdi, Purple yam, Brinjal, Banana, Methi muthia, Spices, Wheat flour",
+        instructions: `
+          <strong>1.</strong> Make methi muthia → fry lightly.<br>
+          <strong>2.</strong> Layer all veggies in pot with spice paste → slow cook 45 mins.<br>
+          <strong>3.</strong> Serve with roti.
+        `
+      },
+      {
+        name: "Manchurian + Fried Rice",
+        ingredients: "Cabbage, Carrot, Cornflour, Soy sauce, Rice",
+        instructions: `
+          <strong>1.</strong> Make veggie balls with cabbage, carrot, cornflour → fry.<br>
+          <strong>2.</strong> Toss in soy-garlic sauce.<br>
+          <strong>3.</strong> Serve with veg fried rice.
+        `
+      },
+      {
+        name: "Daal Dhokli + Rice",
+        ingredients: "Wheat flour, Toor dal, Peanuts, Spices, Rice",
+        instructions: `
+          <strong>1.</strong> Cook toor dal with peanuts, spices.<br>
+          <strong>2.</strong> Roll thin dhokli from wheat flour → cut strips → add to boiling dal.<br>
+          <strong>3.</strong> Serve with rice.
+        `
+      }
+    ];
+
+    function generateMeal() {
+      const i = Math.floor(Math.random() * meals.length);
+      const m = meals[i];
+      document.getElementById("result").innerHTML = `
+        <div class="meal">${m.name}</div>
+        <div class="section-title">Ingredients (for 2):</div>
+        <div class="ingredients">
+          ${m.ingredients.replace(/, /g, '<br>')}
+        </div>
+        <div class="section-title">Cooking Instructions:</div>
+        <div class="instructions">
+          ${m.instructions}
+        </div>
+      `;
+    }
+  </script>
+</body>
+</html>
