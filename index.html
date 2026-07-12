@@ -9,63 +9,7 @@
       document.write('<h2 style="color:red;text-align:center;padding:20px;">Please open in Safari via "Share → Open in Safari" or host online.</h2>');
     }
   </script>
-  <style>
-    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
-    :root{--bg1:#ff9a9e;--bg2:#fad0c4;--card:#fff;--text:#2c2c2c;--accent:#d63384;--accent2:#b0246b;--muted:#6b7280;--soft:#f8f9fa;--soft2:#e8f5e9;--border:rgba(0,0,0,.08)}
-    *{box-sizing:border-box}
-    body{font-family:'Poppins',sans-serif;background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text);margin:0;min-height:100vh;padding:24px}
-    .shell{max-width:1100px;margin:0 auto}
-    .hero{padding:28px 0 10px;text-align:center}
-    h1{font-size:clamp(2rem,4vw,3.5rem);margin:0 0 10px;color:var(--accent)}
-    .sub{margin:0 auto;max-width:760px;color:rgba(44,44,44,.78);font-size:1rem}
-    .grid{display:grid;grid-template-columns:280px 1fr;gap:18px;align-items:start;margin-top:22px}
-    .card{background:var(--card);border-radius:22px;box-shadow:0 12px 32px rgba(0,0,0,.10);border:1px solid var(--border)}
-    .panel{padding:18px}
-    .controls{position:sticky;top:16px}
-    .btn{width:100%;background:var(--accent);color:#fff;border:none;padding:14px 18px;font-size:1rem;border-radius:999px;cursor:pointer;font-weight:700;transition:.2s ease;box-shadow:0 10px 20px rgba(214,51,132,.18)}
-    .btn:hover{background:var(--accent2);transform:translateY(-1px)}
-    .btn:active{transform:scale(.98)}
-    .btn-secondary{margin-top:10px;background:#fff;color:var(--accent);border:1px solid rgba(214,51,132,.25);box-shadow:none}
-    .btn-secondary:hover{background:rgba(214,51,132,.06);color:var(--accent2)}
-    .pill-row{display:flex;flex-wrap:wrap;gap:8px;margin-top:14px}
-    .pill{border:none;background:var(--soft);padding:10px 14px;border-radius:999px;color:var(--text);cursor:pointer;font-weight:600;font-size:.92rem;transition:.2s}
-    .pill.active{background:var(--accent);color:#fff}
-    .pill:focus-visible,.btn:focus-visible,.recipe-card:focus-visible{outline:3px solid rgba(214,51,132,.25);outline-offset:2px}
-    .search{width:100%;margin-top:10px;border:1px solid rgba(0,0,0,.08);border-radius:14px;padding:12px 14px;font:inherit}
-    .meal-list{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:14px}
-    .recipe-card{padding:18px;cursor:pointer;transition:.2s ease;border:1px solid var(--border)}
-    .recipe-card:hover{transform:translateY(-2px);border-color:rgba(214,51,132,.30)}
-    .recipe-card.active{border-color:var(--accent);box-shadow:0 0 0 3px rgba(214,51,132,.09) inset}
-    .topline{display:flex;align-items:flex-start;justify-content:space-between;gap:10px}
-    .title{margin:0;color:var(--accent);font-size:1.1rem}
-    .meta{display:flex;flex-wrap:wrap;gap:8px;margin-top:10px}
-    .tag{display:inline-flex;align-items:center;padding:6px 10px;border-radius:999px;background:var(--soft);font-size:.78rem;color:#4b5563}
-    .tag.accent{color:var(--accent)}
-    .tag.green{color:#2e7d32}
-    .tag.orange{color:#9a541d}
-    .desc{margin:12px 0 0;color:#52525b;font-size:.95rem;line-height:1.55}
-    .status{margin-top:14px;padding:12px 14px;border-radius:14px;background:rgba(255,255,255,.55);color:#5b5b5b;font-size:.92rem;border:1px solid rgba(0,0,0,.05)}
-    .modal{position:fixed;inset:0;background:rgba(15,15,15,.45);display:none;align-items:flex-end;justify-content:center;padding:14px;z-index:40}
-    .modal.open{display:flex}
-    .sheet{width:min(860px,100%);max-height:92vh;overflow:auto;background:var(--card);border-radius:24px;padding:20px;box-shadow:0 20px 60px rgba(0,0,0,.22)}
-    .modal-top{display:flex;align-items:flex-start;justify-content:space-between;gap:14px;margin-bottom:12px}
-    .close{border:none;background:var(--soft);width:44px;height:44px;border-radius:999px;cursor:pointer;font-size:1.1rem}
-    .detail-grid{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-top:18px}
-    .block{background:var(--soft);border-radius:18px;padding:16px}
-    .block h3{margin:0 0 12px;color:var(--accent);font-size:1.05rem}
-    .list{margin:0;padding-left:20px;line-height:1.65;color:#444}
-    .empty{padding:20px;text-align:center;color:var(--muted);background:var(--soft);border-radius:18px}
-
-    [data-theme='dark']{--bg1:#2a1024;--bg2:#1a2038;--card:#17181d;--text:#f8f3ff;--accent:#ff7ab8;--accent2:#ff4f9c;--muted:#c7bfd4;--soft:#242733;--soft2:#133224;--border:rgba(255,255,255,.10)}
-    html[data-theme='dark'] body{background:linear-gradient(135deg,var(--bg1),var(--bg2));color:var(--text)}
-    html[data-theme='dark'] .card{background:var(--card);color:var(--text);box-shadow:0 12px 32px rgba(0,0,0,.38)}
-    html[data-theme='dark'] .sub, html[data-theme='dark'] .desc, html[data-theme='dark'] .helper, html[data-theme='dark'] .status{color:var(--muted)}
-    html[data-theme='dark'] .pill, html[data-theme='dark'] .search, html[data-theme='dark'] .btn-secondary, html[data-theme='dark'] .close{background:var(--soft);color:var(--text);border-color:var(--border)}
-    html[data-theme='dark'] .recipe-card.active{box-shadow:0 0 0 3px rgba(255,122,184,.18) inset;border-color:var(--accent)}
-    html[data-theme='dark'] .block{background:color-mix(in srgb,var(--soft) 92%, #000)}
-    html[data-theme='dark'] .tag{background:color-mix(in srgb,var(--soft) 88%, #000);color:var(--text)}
-    @media (max-width: 900px){.grid{grid-template-columns:1fr}.meal-list{grid-template-columns:1fr}.controls{position:static}.detail-grid{grid-template-columns:1fr}.modal{padding:0}.sheet{width:100%;max-height:94vh;border-radius:22px 22px 0 0}}
-  </style>
+  <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="shell">
@@ -120,79 +64,6 @@
     </div>
   </div>
 
-  <script>
-    const meals = [
-      {name:'Uttapam', cuisine:'Indian', diet:'Veg', time:'25 min', serves:'2', desc:'Savory rice pancake topped with onion, tomato, and coriander.', ingredients:['1 cup rice batter','1/2 cup onion, finely chopped','1/2 cup tomato, finely chopped','2 tbsp coriander','2 tsp oil','Salt to taste'], steps:['Heat a tawa and lightly grease it with oil.','Pour a ladle of batter and spread into a medium circle.','Top with onion, tomato, and coriander.','Cook on medium heat until the base turns golden.','Flip once and cook the other side briefly. Serve hot with chutney.']},
-      {name:'Roti + Bhindi + Salad + Dahi', cuisine:'Indian', diet:'Veg', time:'35 min', serves:'2', desc:'A balanced everyday plate with soft rotis, spiced okra, fresh salad, and yogurt.', ingredients:['2 cups wheat flour','250g bhindi','1 onion','1 tomato','1 cucumber','200g dahi','2 tbsp oil','Cumin, turmeric, coriander powder, salt'], steps:['Knead wheat flour into a soft dough and rest it for 10 minutes.','Wash and dry bhindi well, then slice into small pieces.','Cook bhindi with oil and spices until it becomes tender and slightly crisp.','Chop onion, tomato, and cucumber for a simple salad.','Roll and cook rotis on a hot tawa, then serve with bhindi, salad, and dahi.']},
-      {name:'Pav Bhaji', cuisine:'Indian', diet:'Veg', time:'40 min', serves:'2', desc:'Classic street-style mashed vegetable curry served with buttery pav.', ingredients:['4 pav buns','2 potatoes','1 cup mixed vegetables','3 tomatoes','2 onions','2 tbsp butter','Pav bhaji masala','Salt to taste'], steps:['Boil potatoes and mixed vegetables until soft. Mash lightly and keep aside.','Sauté onion in butter until soft, then add tomatoes and pav bhaji masala.','Add the mashed vegetables and cook until thick and well blended.','Butter the pav buns and toast them on a pan until golden.','Serve bhaji hot with pav, chopped onion, and lemon.']},
-      {name:'Paneer Bhurji + Paratha + Chaas', cuisine:'Indian', diet:'Veg', time:'30 min', serves:'2', desc:'Scrambled paneer with soft parathas and chilled chaas.', ingredients:['200g paneer','1 onion','1 tomato','1 capsicum','2 cups wheat flour','300ml buttermilk','Ghee, cumin, chili powder, salt'], steps:['Knead wheat flour into a soft dough and rest it.','Crumble paneer and sauté onion, tomato, and capsicum in ghee.','Add paneer and spices, then cook for 4 to 5 minutes.','Roll and cook parathas on a hot pan with ghee.','Mix buttermilk with roasted cumin and salt to make chaas. Serve everything together.']},
-      {name:'Vaghareli Khichdi', cuisine:'Indian', diet:'Veg', time:'30 min', serves:'2', desc:'Comforting one-pot rice and lentils with a Gujarati-style tempering.', ingredients:['1/2 cup rice','1/4 cup moong dal','1 potato','1/2 cup peas','1 tsp cumin seeds','1 tsp ghee','Turmeric, salt, pepper'], steps:['Wash rice and moong dal together until the water runs clear.','Heat ghee and add cumin seeds, then sauté potato cubes and peas for 2 minutes.','Add rice, dal, turmeric, salt, pepper, and 3 cups water.','Pressure cook until soft and creamy, or simmer until fully cooked.','Serve warm with masala chaas or papad.']},
-      {name:'Mix Veg Millet Paratha', cuisine:'Indian', diet:'Veg', time:'30 min', serves:'2', desc:'Healthy stuffed paratha made with millet flour and mixed vegetables.', ingredients:['1 cup bajra or jowar flour','1 carrot','1/2 cup beans','1/2 cup peas','2 tsp oil','Salt, chili, coriander powder'], steps:['Steam or lightly boil the vegetables, then chop them finely.','Mix with spices and a little oil to make the stuffing.','Knead millet flour with warm water into a soft dough.','Roll, fill, and seal the dough, then flatten gently.','Cook on a hot tawa with a little oil until both sides brown.']},
-      {name:'Jeera Rice + Dal Fry + Chaas', cuisine:'Indian', diet:'Veg', time:'30 min', serves:'2', desc:'Simple rice, tempered dal, and refreshing chaas.', ingredients:['1 cup rice','1/2 cup toor dal','1 tsp cumin seeds','1 onion','2 garlic cloves','1 cup curd','Salt, turmeric, chili'], steps:['Cook rice separately with a little salt and keep warm.','Pressure cook toor dal with turmeric until soft.','Prepare a tempering using ghee, cumin, garlic, and chili, then pour it over the dal.','Mix curd with water, salt, and roasted cumin for chaas.','Serve dal with jeera rice and chilled chaas.']},
-      {name:'Masala Dosa', cuisine:'Indian', diet:'Veg', time:'45 min', serves:'2', desc:'Crisp dosa stuffed with spiced potato filling.', ingredients:['Dosa batter','2 potatoes','1 onion','Mustard seeds','Curry leaves','Turmeric','Oil','Salt'], steps:['Boil potatoes, mash them, and set aside.','Make a filling with mustard, curry leaves, onion, turmeric, and salt.','Heat a tawa, spread dosa batter thinly, and cook until crisp.','Place potato filling in the center and fold.','Serve with chutney and sambar.']},
-      {name:'Daal Dhokli', cuisine:'Indian', diet:'Veg', time:'50 min', serves:'2', desc:'Soft wheat dumplings simmered in spiced dal gravy.', ingredients:['1/2 cup toor dal','1 cup wheat flour','1 tsp ghee','1 tomato','1 tsp jaggery','Cumin, mustard, turmeric, chili, salt'], steps:['Cook toor dal until tender with turmeric and tomato.','Mix wheat flour with spices and water to make a firm dough.','Roll and cut the dough into small diamond-shaped pieces.','Add the pieces to the boiling dal and cook until soft.','Finish with ghee tempering and serve warm.']},
-      {name:'Thepla + Chai', cuisine:'Indian', diet:'Veg', time:'20 min', serves:'2', desc:'Soft spiced flatbread served with tea.', ingredients:['1 cup wheat flour','1/2 cup methi leaves','2 tsp yogurt','Spices, salt','Tea leaves','Milk','Sugar'], steps:['Combine flour, methi, yogurt, spices, and water into a soft dough.','Roll small discs and cook each thepla on a hot tawa.','Brew chai with tea leaves, milk, and sugar.','Serve thepla hot with chai.']},
-      {name:'Bengaluru-Style Ghee Roast Dosa', cuisine:'Indian', diet:'Veg', time:'25 min', serves:'2', desc:'Thin dosa roasted with ghee for a crisp, rich finish.', ingredients:['Dosa batter','2 tbsp ghee','Chutney of choice'], steps:['Heat a flat pan until hot.','Spread dosa batter thinly in a spiral motion.','Drizzle ghee around the edges and over the top.','Cook until crisp and lightly browned.','Fold and serve immediately with chutney.']},
-      {name:'Chicken Curry with Roti', cuisine:'Indian', diet:'Non-Veg', time:'45 min', serves:'2', desc:'Deeply spiced chicken curry with soft roti.', ingredients:['200g chicken','1 onion','2 tomatoes','1 tsp ginger garlic paste','1 tsp coriander powder','1/2 tsp turmeric','1 tsp garam masala','2 cups wheat flour','Oil, salt'], steps:['Knead wheat flour and rest the dough for rotis.','Brown onions in oil, then add ginger garlic paste.','Add tomatoes and spices, and cook until the masala releases oil.','Add chicken and stir well so it is fully coated.','Add water, cover, and simmer until the chicken becomes tender.','Make rotis and serve hot.']},
-      {name:'Butter Chicken Rice Bowl', cuisine:'Indian', diet:'Non-Veg', time:'40 min', serves:'2', desc:'Creamy butter chicken gravy over rice.', ingredients:['250g chicken','1 cup cooked rice','2 tbsp butter','1/2 cup tomato puree','2 tbsp cream','Ginger garlic paste','Garam masala','Salt'], steps:['Marinate chicken lightly with ginger garlic paste and salt.','Cook chicken in butter until lightly browned.','Add tomato puree and spices, then simmer until thick.','Stir in cream and cook for another 2 minutes.','Serve over warm rice with coriander on top.']},
-      {name:'Chicken Hakka Noodles', cuisine:'Indian', diet:'Non-Veg', time:'25 min', serves:'2', desc:'Stir-fried noodles with chicken and vegetables.', ingredients:['1 packet noodles','120g chicken','1/2 cup cabbage','1/2 cup carrot','Soy sauce','Oil','Pepper','Salt'], steps:['Boil noodles, drain, and toss with a little oil.','Stir-fry chicken until cooked through.','Add vegetables and cook for 2 to 3 minutes.','Add noodles, soy sauce, pepper, and salt.','Toss on high heat and serve immediately.']},
-      {name:'Fish Curry with Rice', cuisine:'Indian', diet:'Non-Veg', time:'45 min', serves:'2', desc:'Tangy fish curry with steamed rice.', ingredients:['250g fish','1 onion','2 tomatoes','Tamarind water','Turmeric','Chili','Coriander powder','Rice'], steps:['Marinate fish with turmeric and salt.','Cook onion and tomatoes with spices until soft.','Add tamarind water and simmer into a curry base.','Gently add fish pieces and cook until tender.','Serve with hot steamed rice.']},
-      {name:'Mutton Keema Pav', cuisine:'Indian', diet:'Non-Veg', time:'50 min', serves:'2', desc:'Spiced minced mutton served with toasted pav.', ingredients:['250g mutton keema','4 pav','1 onion','2 tomatoes','Ginger garlic paste','Keema masala','Butter','Salt'], steps:['Cook onions in oil until golden.','Add ginger garlic paste, tomatoes, and keema masala.','Add mutton keema and sauté until browned.','Add a little water and simmer until cooked and dry.','Toast pav in butter and serve with keema.']},
-      {name:'Egg Curry + Rice', cuisine:'Indian', diet:'Non-Veg', time:'35 min', serves:'2', desc:'Boiled eggs in a rich onion-tomato gravy.', ingredients:['4 eggs','1 onion','2 tomatoes','1 tsp ginger garlic paste','Turmeric','Garam masala','Rice','Oil','Salt'], steps:['Boil and peel the eggs.','Make an onion-tomato gravy with ginger garlic paste and spices.','Add water and simmer until the gravy thickens.','Add eggs and cook for 5 more minutes.','Serve with rice.']},
-      {name:'Methi Chicken + Roti', cuisine:'Indian', diet:'Non-Veg', time:'40 min', serves:'2', desc:'Chicken cooked with fresh fenugreek and warm spices.', ingredients:['200g chicken','1 cup methi leaves','1 onion','1 tomato','Ginger garlic paste','Chili, coriander powder','Wheat flour'], steps:['Wash and chop methi leaves.','Cook onion and tomato with ginger garlic paste until soft.','Add chicken and spices, then cook until nearly done.','Stir in methi leaves and cook for 5 more minutes.','Serve with fresh rotis.']},
-      {name:'Mushroom Chicken Pepper Fry', cuisine:'Indian', diet:'Non-Veg', time:'30 min', serves:'2', desc:'Dry-style pepper chicken with mushrooms.', ingredients:['200g chicken','1 cup mushrooms','1 onion','Black pepper','Curry leaves','Oil','Salt'], steps:['Heat oil and add curry leaves and onion.','Add chicken, pepper, and salt, and cook on medium heat.','Add mushrooms and continue stirring until tender.','Cook until the moisture reduces and flavors concentrate.','Serve hot with rice or roti.']},
-      {name:'Chicken Biryani', cuisine:'Indian', diet:'Non-Veg', time:'60 min', serves:'2', desc:'Fragrant layered rice with spiced chicken.', ingredients:['250g chicken','1.5 cups rice','1 onion','Yogurt','Biryani masala','Mint','Coriander','Saffron or food color','Oil, salt'], steps:['Marinate chicken with yogurt, biryani masala, onion, and herbs.','Partially cook the rice until 70 percent done.','Layer chicken and rice in a heavy pot.','Add mint, coriander, and saffron water, then cover tightly.','Cook on low heat until done and serve with raita.']},
-      {name:'Chole Rice', cuisine:'Indian', diet:'Veg', time:'40 min', serves:'2', desc:'Punjabi chickpea curry with rice.', ingredients:['1 cup chickpeas','1 onion','2 tomatoes','Chole masala','Ginger garlic paste','Rice','Salt','Oil'], steps:['Soak and boil chickpeas until soft.','Prepare onion-tomato masala with ginger garlic paste and spices.','Add chickpeas and simmer until thick and flavorful.','Serve with steamed rice.']},
-      {name:'Dal Makhani + Jeera Rice', cuisine:'Indian', diet:'Veg', time:'50 min', serves:'2', desc:'Creamy black lentils with cumin rice.', ingredients:['1/2 cup black lentils','2 tbsp kidney beans','1 onion','1 tomato','Butter','Cream','Rice','Cumin','Salt'], steps:['Soak and cook lentils and kidney beans until soft.','Make a rich onion-tomato base with butter and spices.','Add cooked lentils and simmer slowly.','Finish with cream. Serve with jeera rice.']}
-    ];
-
-    const state = { q:'', cuisine:'All', diet:'All', activeId:null };
-    const cuisineFilters = document.getElementById('cuisineFilters');
-    const dietFilters = document.getElementById('dietFilters');
-    const searchInput = document.getElementById('searchInput');
-    const mealGrid = document.getElementById('mealGrid');
-    const countText = document.getElementById('countText');
-    const statusBox = document.getElementById('statusBox');
-    const modal = document.getElementById('modal');
-    const modalTitle = document.getElementById('modalTitle');
-    const modalMeta = document.getElementById('modalMeta');
-    const modalDescription = document.getElementById('modalDescription');
-    const modalQuick = document.getElementById('modalQuick');
-    const modalIngredients = document.getElementById('modalIngredients');
-    const modalSteps = document.getElementById('modalSteps');
-
-    const cuisines = ['All', ...new Set(meals.map(m => m.cuisine))];
-    const diets = ['All', 'Veg', 'Non-Veg'];
-
-    function pillSet(root, items, key){ root.innerHTML=''; items.forEach(item=>{ const b=document.createElement('button'); b.type='button'; b.className='pill'+(state[key]===item?' active':''); b.textContent=item; b.addEventListener('click',()=>{ state[key]=item; updateUI(); status(`${key==='cuisine'?'Cuisine':'Diet'}: ${item}`); }); root.appendChild(b); }); }
-    function status(text){ statusBox.textContent=text; }
-    function filtered(){ return meals.filter(m=>{ const t=(m.name+' '+m.cuisine+' '+m.diet+' '+m.desc+' '+m.ingredients.join(' ')+' '+m.steps.join(' ')).toLowerCase(); return (state.cuisine==='All'||m.cuisine===state.cuisine) && (state.diet==='All'||m.diet===state.diet) && (!state.q || t.includes(state.q.toLowerCase())); }); }
-    function renderCards(list){ mealGrid.innerHTML = list.length ? list.map(m=>`<article class="card recipe-card${state.activeId===m.name?' active':''}" data-name="${encodeURIComponent(m.name)}" tabindex="0" role="button" aria-label="Open ${m.name}"><div class="topline"><h3 class="title">${m.name}</h3></div><div class="meta"><span class="tag accent">${m.cuisine}</span><span class="tag ${m.diet==='Veg'?'green':'orange'}">${m.diet}</span><span class="tag">${m.time}</span></div><p class="desc">${m.desc}</p></article>`).join('') : '<div class="empty">No recipes found. Try changing filters or search.</div>'; document.querySelectorAll('.recipe-card').forEach(el=>{ const open=()=>openMeal(decodeURIComponent(el.dataset.name)); el.addEventListener('click',open); el.addEventListener('keydown',e=>{ if(e.key==='Enter'||e.key===' '){ e.preventDefault(); open(); } }); }); countText.textContent = `${list.length} recipe${list.length===1?'':'s'} visible`; }
-    function openMeal(name){ const m=meals.find(x=>x.name===name); if(!m) return; state.activeId=m.name; modalTitle.textContent=m.name; modalMeta.innerHTML=`<span class="tag accent">${m.cuisine}</span><span class="tag ${m.diet==='Veg'?'green':'orange'}">${m.diet}</span><span class="tag">${m.time}</span><span class="tag">Serves ${m.serves}</span>`; modalDescription.textContent=m.desc; modalQuick.innerHTML=`<span class="tag">Ingredients: ${m.ingredients.length}</span><span class="tag">Steps: ${m.steps.length}</span>`; modalIngredients.innerHTML=m.ingredients.map(i=>`<li>${i}</li>`).join(''); modalSteps.innerHTML=m.steps.map(s=>`<li>${s}</li>`).join(''); modal.classList.add('open'); modal.setAttribute('aria-hidden','false'); renderCards(filtered()); status(`${m.name} opened`); }
-    function closeMeal(){ modal.classList.remove('open'); modal.setAttribute('aria-hidden','true'); }
-    function updateUI(){ pillSet(cuisineFilters,cuisines,'cuisine'); pillSet(dietFilters,diets,'diet'); renderCards(filtered()); }
-    function reset(){ state.q=''; state.cuisine='All'; state.diet='All'; state.activeId=null; searchInput.value=''; updateUI(); status('Showing all recipes.'); }
-    function randomMeal(){ const list=filtered(); const pick=list[Math.floor(Math.random()*list.length)] || meals[Math.floor(Math.random()*meals.length)]; if(!pick) return; openMeal(pick.name); status(`Random pick: ${pick.name}`); }
-    searchInput.addEventListener('input',e=>{ state.q=e.target.value.trim(); updateUI(); status(state.q ? `Search: ${state.q}` : 'Search cleared.'); });
-    document.getElementById('rollBtn').addEventListener('click',randomMeal); document.getElementById('resetBtn').addEventListener('click',reset);
-    document.querySelectorAll('#modal, #closeModal').forEach?.(()=>{});
-    document.getElementById('closeModal').addEventListener('click',closeMeal); modal.addEventListener('click',e=>{ if(e.target===modal) closeMeal(); });
-    document.getElementById('rollBtn').addEventListener('click',()=>{ const list=filtered(); if(list.length){ const pick=list[Math.floor(Math.random()*list.length)]; openMeal(pick.name); } else { status('No filtered recipes.'); } });
-    if (document.body){ reset(); }
-    const themeToggle = document.createElement('button');
-    themeToggle.type = 'button';
-    themeToggle.className = 'btn btn-secondary';
-    themeToggle.textContent = 'Dark mode';
-    themeToggle.style.marginTop = '10px';
-    document.querySelector('.controls').appendChild(themeToggle);
-    const root = document.documentElement;
-    let dark = false;
-    themeToggle.addEventListener('click', () => {
-      dark = !dark;
-      root.setAttribute('data-theme', dark ? 'dark' : 'light');
-      themeToggle.textContent = dark ? 'Light mode' : 'Dark mode';
-      status(dark ? 'Dark mode on.' : 'Light mode on.');
-    });
-  </script>
+  <script src="app.js"></script>
 </body>
 </html>
