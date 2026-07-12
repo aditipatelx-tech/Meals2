@@ -1,0 +1,75 @@
+[
+  {
+    "name": "Uttapam",
+    "cuisine": "Indian",
+    "diet": "Veg",
+    "time": "25 min",
+    "serves": "2",
+    "desc": "Savory rice pancake topped with onion, tomato, and coriander.",
+    "ingredients": [
+      "1 cup rice batter",
+      "1/2 cup onion, finely chopped",
+      "1/2 cup tomato, finely chopped",
+      "2 tbsp coriander",
+      "2 tsp oil",
+      "Salt to taste"
+    ],
+    "steps": [
+      "Heat a tawa and lightly grease it with oil.",
+      "Pour a ladle of batter and spread into a medium circle.",
+      "Top with onion, tomato, and coriander.",
+      "Cook on medium heat until the base turns golden.",
+      "Flip once and cook the other side briefly. Serve hot with chutney."
+    ]
+  },
+  {
+    "name": "Roti + Bhindi + Salad + Dahi",
+    "cuisine": "Indian",
+    "diet": "Veg",
+    "time": "35 min",
+    "serves": "2",
+    "desc": "A balanced everyday plate with soft rotis, spiced okra, fresh salad, and yogurt.",
+    "ingredients": [
+      "2 cups wheat flour",
+      "250g bhindi",
+      "1 onion",
+      "1 tomato",
+      "1 cucumber",
+      "200g dahi",
+      "2 tbsp oil",
+      "Cumin, turmeric, coriander powder, salt"
+    ],
+    "steps": [
+      "Knead wheat flour into a soft dough and rest it for 10 minutes.",
+      "Wash and dry bhindi well, then slice into small pieces.",
+      "Cook bhindi with oil and spices until it becomes tender and slightly crisp.",
+      "Chop onion, tomato, and cucumber for a simple salad.",
+      "Roll and cook rotis on a hot tawa, then serve with bhindi, salad, and dahi."
+    ]
+  },
+  {
+    "name": "Pav Bhaji",
+    "cuisine": "Indian",
+    "diet": "Veg",
+    "time": "40 min",
+    "serves": "2",
+    "desc": "Classic street-style mashed vegetable curry served with buttery pav.",
+    "ingredients": [
+      "4 pav buns",
+      "2 potatoes",
+      "1 cup mixed vegetables",
+      "3 tomatoes",
+      "2 onions",
+      "2 tbsp butter",
+      "Pav bhaji masala",
+      "Salt to taste"
+    ],
+    "steps": [
+      "Boil potatoes and mixed vegetables until soft. Mash lightly and keep aside.",
+      "Sauté onion in butter until soft, then add tomatoes and pav bhaji masala.",
+      "Add the mashed vegetables and cook until thick and well blended.",
+      "Butter the pav buns and toast them on a pan until golden.",
+      "Serve bhaji hot with pav, chopped onion, and lemon."
+    ]
+  }
+]
