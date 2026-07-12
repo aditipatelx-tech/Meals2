@@ -2,23 +2,31 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="theme-color" content="#d63384" />
   <title>Meal Roulette</title>
   <link rel="stylesheet" href="styles.css" />
 </head>
 <body>
   <div class="shell">
-    <section class="hero">
-      <h1>Meal Roulette</h1>
-      <p class="sub">Tap once to randomly pick a recipe, then open the card to see ingredients, full instructions, timing, cuisine, and diet in a clean dynamic layout.</p>
-    </section>
-
-    <section class="grid">
-      <aside class="card panel controls">
+    <header class="hero card">
+      <div>
+        <p class="eyebrow">Meal Roulette</p>
+        <h1>Find dinner fast, make it feel premium.</h1>
+        <p class="sub">Search recipes, filter by cuisine or diet, and roll for a random meal in a polished modular interface.</p>
+      </div>
+      <div class="hero-actions">
         <button class="btn" id="rollBtn" type="button">Roll the Dice</button>
-        <button class="btn btn-secondary" id="resetBtn" type="button">Show All Recipes</button>
-        <input class="search" id="searchInput" type="text" placeholder="Search recipe, ingredient, cuisine..." />
+        <button class="btn btn-secondary" id="themeBtn" type="button">Dark mode</button>
+      </div>
+    </header>
+
+    <section class="layout">
+      <aside class="card panel controls">
+        <input class="search" id="searchInput" type="search" placeholder="Search recipe, ingredient, cuisine..." />
+        <div class="section-label">Cuisine</div>
         <div class="pill-row" id="cuisineFilters"></div>
+        <div class="section-label">Diet</div>
         <div class="pill-row" id="dietFilters"></div>
         <div class="status" id="statusBox">Showing all recipes.</div>
       </aside>
@@ -26,11 +34,12 @@
       <main class="card panel">
         <div class="topline">
           <div>
-            <h2 style="margin:0;color:var(--accent);font-size:1.4rem;">Recipes</h2>
-            <p style="margin:4px 0 0;color:var(--muted);font-size:.92rem;" id="countText"></p>
+            <h2 class="section-title">Recipes</h2>
+            <p class="helper" id="countText"></p>
           </div>
+          <button class="btn btn-ghost" id="resetBtn" type="button">Reset</button>
         </div>
-        <div id="mealGrid" class="meal-list" style="margin-top:16px;"></div>
+        <div id="mealGrid" class="meal-list"></div>
       </main>
     </section>
   </div>
@@ -39,7 +48,7 @@
     <div class="sheet">
       <div class="modal-top">
         <div>
-          <h2 id="modalTitle" style="margin:0;color:var(--accent)"></h2>
+          <h2 id="modalTitle"></h2>
           <div class="meta" id="modalMeta"></div>
         </div>
         <button class="close" id="closeModal" type="button" aria-label="Close">✕</button>
@@ -59,6 +68,6 @@
     </div>
   </div>
 
-  <script src="app.js"></script>
+  <script type="module" src="app.js"></script>
 </body>
 </html>
