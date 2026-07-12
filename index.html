@@ -1,1 +1,341 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="light">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>minimal-meal-planner</title>
+  <link rel="preconnect" href="https://api.fontshare.com" />
+  <link href="https://api.fontshare.com/v2/css?f[]=satoshi@400,500,700&f[]=boska@400,500,700&display=swap" rel="stylesheet" />
+  <style>
+    :root,[data-theme="light"]{
+      --text-xs:clamp(.75rem,.7rem + .25vw,.875rem);
+      --text-sm:clamp(.875rem,.8rem + .35vw,1rem);
+      --text-base:clamp(1rem,.95rem + .25vw,1.125rem);
+      --text-lg:clamp(1.125rem,1rem + .75vw,1.45rem);
+      --text-xl:clamp(1.5rem,1.2rem + 1.25vw,2.2rem);
+      --text-2xl:clamp(2rem,1.2rem + 2.5vw,3.2rem);
+      --space-1:.25rem;--space-2:.5rem;--space-3:.75rem;--space-4:1rem;--space-5:1.25rem;--space-6:1.5rem;--space-8:2rem;--space-10:2.5rem;--space-12:3rem;--space-16:4rem;
+      --color-bg:#f7f6f2;--color-surface:#fbfaf7;--color-surface-2:#f2efe9;--color-border:#d8d4cb;--color-text:#242118;--color-text-muted:#69655d;--color-inverse:#fbfaf7;--color-primary:#0b6b6f;--color-primary-hover:#084d50;--color-success:#437a22;--color-warning:#9c4f17;--radius-md:.9rem;--radius-lg:1.25rem;--radius-full:9999px;--shadow-sm:0 4px 18px rgba(0,0,0,.05);--font-display:'Boska', Georgia, serif;--font-body:'Satoshi', Arial, sans-serif;--content:1120px;
+    }
+    [data-theme="dark"]{
+      --color-bg:#161513;--color-surface:#1e1c19;--color-surface-2:#25231f;--color-border:#3b3832;--color-text:#eee8dc;--color-text-muted:#b7b0a3;--color-inverse:#161513;--color-primary:#62a7af;--color-primary-hover:#7ab8bf;--color-success:#86ba67;--color-warning:#d68f5e;--shadow-sm:0 8px 26px rgba(0,0,0,.28);
+    }
+    *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+    html{-webkit-text-size-adjust:none;text-size-adjust:none;scroll-behavior:smooth}
+    body{min-height:100vh;font-family:var(--font-body);font-size:var(--text-base);line-height:1.5;background:var(--color-bg);color:var(--color-text)}
+    button,input,select{font:inherit;color:inherit}
+    button{cursor:pointer}
+    img,svg{display:block;max-width:100%}
+    :focus-visible{outline:2px solid var(--color-primary);outline-offset:3px}
+    .container{max-width:var(--content);margin:auto;padding-inline:var(--space-4)}
+    .site-header{position:sticky;top:0;z-index:10;background:color-mix(in srgb,var(--color-bg) 88%,transparent);backdrop-filter:blur(10px);border-bottom:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
+    .header-inner{display:flex;justify-content:space-between;align-items:center;padding:var(--space-4) 0;gap:var(--space-4)}
+    .brand{display:flex;align-items:center;gap:var(--space-3)}
+    .brand-mark{width:38px;height:38px;padding:8px;border-radius:12px;background:var(--color-primary);color:var(--color-inverse)}
+    .brand-copy strong{display:block;font-size:var(--text-sm)}
+    .brand-copy span{display:block;font-size:var(--text-xs);color:var(--color-text-muted)}
+    .theme-toggle{min-width:44px;min-height:44px;border:1px solid color-mix(in srgb,var(--color-text) 10%,transparent);background:var(--color-surface);border-radius:var(--radius-full)}
+    .hero{padding:clamp(var(--space-8),8vw,var(--space-16)) 0 var(--space-8)}
+    .hero-card,.controls,.planner,.quick-help{background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 9%,transparent);box-shadow:var(--shadow-sm);border-radius:var(--radius-lg)}
+    .hero-card{padding:var(--space-8)}
+    .eyebrow{display:inline-flex;padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);background:color-mix(in srgb,var(--color-primary) 10%,var(--color-surface));color:var(--color-primary);font-size:var(--text-xs);letter-spacing:.04em;text-transform:uppercase}
+    h1,h2,h3{font-family:var(--font-display);line-height:1.05}
+    h1{font-size:var(--text-2xl);max-width:11ch;margin-top:var(--space-4)}
+    .hero-card p{margin-top:var(--space-4);max-width:46ch;color:var(--color-text-muted)}
+    .top-actions{display:flex;flex-wrap:wrap;gap:var(--space-3);margin-top:var(--space-6)}
+    .btn{min-height:44px;padding:var(--space-3) var(--space-4);border-radius:var(--radius-full);border:1px solid transparent;font-weight:700;background:transparent}
+    .btn-primary{background:var(--color-primary);color:var(--color-inverse)}
+    .btn-primary:hover{background:var(--color-primary-hover)}
+    .btn-secondary{border-color:color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface)}
+    .layout{display:grid;grid-template-columns:320px 1fr;gap:var(--space-6);padding-bottom:var(--space-16)}
+    .controls{padding:var(--space-6);position:sticky;top:88px;height:max-content}
+    .controls h2,.planner h2,.quick-help h2{font-size:var(--text-xl);margin-bottom:var(--space-3)}
+    .muted{color:var(--color-text-muted)}
+    .stack{display:grid;gap:var(--space-4)}
+    .field label{display:block;font-size:var(--text-sm);font-weight:700;margin-bottom:var(--space-2)}
+    .field select,.field input{width:100%;min-height:48px;border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface-2);border-radius:var(--radius-md);padding:0 var(--space-4)}
+    .chips{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+    .chip{min-height:42px;padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);border:1px solid color-mix(in srgb,var(--color-text) 12%,transparent);background:var(--color-surface-2)}
+    .chip.active{background:var(--color-primary);color:var(--color-inverse);border-color:var(--color-primary)}
+    .planner{padding:var(--space-6)}
+    .planner-head{display:flex;justify-content:space-between;align-items:center;gap:var(--space-3);margin-bottom:var(--space-5)}
+    .meal-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:var(--space-4)}
+    .meal-card{background:var(--color-surface-2);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent);border-radius:var(--radius-lg);padding:var(--space-5);display:grid;gap:var(--space-3)}
+    .meal-top{display:flex;justify-content:space-between;gap:var(--space-3);align-items:flex-start}
+    .meal-card h3{font-size:var(--text-lg)}
+    .meta,.info-line{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+    .tag{display:inline-flex;align-items:center;padding:.35rem .7rem;border-radius:var(--radius-full);font-size:var(--text-xs);background:var(--color-surface);border:1px solid color-mix(in srgb,var(--color-text) 8%,transparent)}
+    .tag.primary{color:var(--color-primary)}
+    .tag.veg{color:var(--color-success)}
+    .tag.nonveg{color:var(--color-warning)}
+    .meal-card p{color:var(--color-text-muted);font-size:var(--text-sm)}
+    .quick-help{padding:var(--space-5);margin-bottom:var(--space-6)}
+    .help-steps{display:flex;flex-wrap:wrap;gap:var(--space-2)}
+    .help-steps span{padding:var(--space-2) var(--space-3);border-radius:var(--radius-full);background:var(--color-surface-2);font-size:var(--text-sm);color:var(--color-text-muted)}
+    .empty{padding:var(--space-8);text-align:center;border-radius:var(--radius-lg);background:var(--color-surface-2);color:var(--color-text-muted)}
+    @media (max-width:980px){.layout,.meal-grid{grid-template-columns:1fr}.controls{position:static}.planner-head{align-items:flex-start;flex-direction:column}}
+  </style>
+</head>
+<body>
+  <header class="site-header">
+    <div class="container header-inner">
+      <div class="brand" aria-label="MealCraft Planner brand">
+        <svg class="brand-mark" viewBox="0 0 64 64" fill="none" aria-hidden="true">
+          <path d="M18 14C26 14 32 20 32 28V50" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="M46 14V50" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="M22 20H42" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+          <path d="M22 32H42" stroke="currentColor" stroke-width="5" stroke-linecap="round"/>
+        </svg>
+        <div class="brand-copy">
+          <strong>MealCraft Planner</strong>
+          <span>Quick meals by cuisine</span>
+        </div>
+      </div>
+      <button class="theme-toggle" type="button" data-theme-toggle aria-label="Toggle theme">◐</button>
+    </div>
+  </header>
+
+  <main>
+    <section class="hero">
+      <div class="container">
+        <div class="hero-card">
+          <span class="eyebrow">Smarter meal planning</span>
+          <h1>Pick fast. Filter once. Get meal ideas that work.</h1>
+          <p>Choose cuisine, veg or non-veg, then shuffle. Tap any quick button to fill the planner instantly.</p>
+          <div class="top-actions">
+            <button class="btn btn-primary" id="showAllBtn" type="button">Show all meals</button>
+            <button class="btn btn-secondary" id="quickVegBtn" type="button">Veg only</button>
+            <button class="btn btn-secondary" id="quickNonVegBtn" type="button">Non-veg only</button>
+            <button class="btn btn-secondary" id="quickRandomBtn" type="button">Random plan</button>
+          </div>
+        </div>
+      </div>
+    </section>
+
+    <section class="container layout">
+      <aside class="controls">
+        <h2>Customize</h2>
+        <div class="stack">
+          <div class="field">
+            <label for="mealType">Meal</label>
+            <select id="mealType">
+              <option value="all">All</option>
+              <option value="Breakfast">Breakfast</option>
+              <option value="Lunch">Lunch</option>
+              <option value="Dinner">Dinner</option>
+              <option value="Snack">Snack</option>
+            </select>
+          </div>
+          <div class="field">
+            <label for="cuisineSelect">Cuisine</label>
+            <select id="cuisineSelect"></select>
+          </div>
+          <div class="field">
+            <label>Diet</label>
+            <div class="chips" id="dietChips"></div>
+          </div>
+          <div class="field">
+            <label for="searchInput">Search</label>
+            <input id="searchInput" type="text" placeholder="Paneer, chicken, oats" />
+          </div>
+          <div class="top-actions">
+            <button class="btn btn-primary" id="shuffleBtn" type="button">Shuffle</button>
+            <button class="btn btn-secondary" id="resetBtn" type="button">Reset</button>
+          </div>
+        </div>
+      </aside>
+
+      <section>
+        <div class="quick-help">
+          <h2>Use it</h2>
+          <div class="help-steps">
+            <span>1. Pick filters</span>
+            <span>2. Shuffle</span>
+            <span>3. Browse cards</span>
+          </div>
+        </div>
+
+        <div class="planner">
+          <div class="planner-head">
+            <div>
+              <h2>Meal cards</h2>
+              <p class="muted" id="resultsCopy">All meals</p>
+            </div>
+          </div>
+          <div id="mealGrid" class="meal-grid"></div>
+        </div>
+      </section>
+    </section>
+  </main>
+
+  <script>
+    const meals = [
+      {name:'Masala Oats Bowl', type:'Breakfast', cuisine:'Indian', diet:'Veg', time:'15 min', calories:'320 kcal', description:'Savory oats, peas, carrots.', ingredients:['Oats','Peas','Carrots','Yogurt']},
+      {name:'Paneer Tikka Wrap', type:'Lunch', cuisine:'Indian', diet:'Veg', time:'25 min', calories:'480 kcal', description:'Paneer wrap with onion and mint.', ingredients:['Paneer','Wrap','Onion','Mint chutney']},
+      {name:'Butter Chicken Rice Bowl', type:'Dinner', cuisine:'Indian', diet:'Non-Veg', time:'35 min', calories:'610 kcal', description:'Chicken curry with rice.', ingredients:['Chicken','Rice','Tomato gravy','Cucumber']},
+      {name:'Avocado Egg Toast', type:'Breakfast', cuisine:'American', diet:'Non-Veg', time:'10 min', calories:'350 kcal', description:'Avocado toast with eggs.', ingredients:['Bread','Avocado','Eggs','Chili']},
+      {name:'Greek Chickpea Salad', type:'Lunch', cuisine:'Mediterranean', diet:'Veg', time:'12 min', calories:'390 kcal', description:'Chickpeas, olives, cucumber.', ingredients:['Chickpeas','Olives','Cucumber','Feta']},
+      {name:'Herbed Chicken Pita', type:'Lunch', cuisine:'Mediterranean', diet:'Non-Veg', time:'20 min', calories:'470 kcal', description:'Chicken pita with garlic sauce.', ingredients:['Chicken','Pita','Greens','Garlic sauce']},
+      {name:'Veggie Burrito Bowl', type:'Dinner', cuisine:'Mexican', diet:'Veg', time:'20 min', calories:'510 kcal', description:'Beans, rice, peppers, guacamole.', ingredients:['Rice','Beans','Corn','Guacamole']},
+      {name:'Chipotle Chicken Tacos', type:'Dinner', cuisine:'Mexican', diet:'Non-Veg', time:'22 min', calories:'530 kcal', description:'Chicken tacos with slaw.', ingredients:['Chicken','Tortillas','Slaw','Chipotle']},
+      {name:'Pesto Pasta Primavera', type:'Lunch', cuisine:'Italian', diet:'Veg', time:'18 min', calories:'500 kcal', description:'Pasta, pesto, zucchini.', ingredients:['Pasta','Pesto','Zucchini','Parmesan']},
+      {name:'Lemon Garlic Salmon', type:'Dinner', cuisine:'Mediterranean', diet:'Non-Veg', time:'25 min', calories:'560 kcal', description:'Salmon with couscous.', ingredients:['Salmon','Couscous','Broccoli','Lemon']},
+      {name:'Thai Basil Tofu', type:'Dinner', cuisine:'Thai', diet:'Veg', time:'18 min', calories:'430 kcal', description:'Tofu, basil, rice.', ingredients:['Tofu','Basil','Peppers','Rice']},
+      {name:'Chicken Hakka Noodles', type:'Lunch', cuisine:'East Asian', diet:'Non-Veg', time:'20 min', calories:'540 kcal', description:'Chicken noodles.', ingredients:['Noodles','Chicken','Cabbage','Soy sauce']},
+      {name:'Falafel Mezze Plate', type:'Lunch', cuisine:'Middle Eastern', diet:'Veg', time:'20 min', calories:'450 kcal', description:'Falafel, hummus, pita.', ingredients:['Falafel','Hummus','Tabbouleh','Pita']},
+      {name:'Shakshuka Skillet', type:'Breakfast', cuisine:'Middle Eastern', diet:'Non-Veg', time:'18 min', calories:'360 kcal', description:'Eggs in tomato sauce.', ingredients:['Eggs','Tomato','Peppers','Bread']},
+      {name:'Berry Yogurt Parfait', type:'Snack', cuisine:'American', diet:'Veg', time:'5 min', calories:'220 kcal', description:'Yogurt, berries, granola.', ingredients:['Yogurt','Berries','Granola','Honey']},
+      {name:'Satay Chicken Skewers', type:'Snack', cuisine:'Thai', diet:'Non-Veg', time:'16 min', calories:'280 kcal', description:'Chicken skewers with peanut dip.', ingredients:['Chicken','Peanut sauce','Cucumber','Lime']},
+      {name:'Caprese Toasts', type:'Snack', cuisine:'Italian', diet:'Veg', time:'8 min', calories:'250 kcal', description:'Tomato, mozzarella, basil.', ingredients:['Bread','Tomato','Mozzarella','Basil']},
+      {name:'Teriyaki Chicken Rice', type:'Dinner', cuisine:'East Asian', diet:'Non-Veg', time:'24 min', calories:'580 kcal', description:'Chicken rice bowl.', ingredients:['Chicken','Rice','Broccoli','Teriyaki sauce']}
+    ];
+
+    const state = { type:'all', cuisine:'All cuisines', diet:'All', search:'' };
+    const mealType = document.getElementById('mealType');
+    const cuisineSelect = document.getElementById('cuisineSelect');
+    const dietChips = document.getElementById('dietChips');
+    const searchInput = document.getElementById('searchInput');
+    const mealGrid = document.getElementById('mealGrid');
+    const resultsCopy = document.getElementById('resultsCopy');
+    const diets = ['All','Veg','Non-Veg'];
+    const cuisines = ['All cuisines', ...new Set(meals.map(m => m.cuisine))];
+
+    cuisines.forEach(cuisine => {
+      const option = document.createElement('option');
+      option.value = cuisine;
+      option.textContent = cuisine;
+      cuisineSelect.appendChild(option);
+    });
+
+    function renderDietChips() {
+      dietChips.innerHTML = '';
+      diets.forEach(diet => {
+        const button = document.createElement('button');
+        button.type = 'button';
+        button.className = `chip${state.diet === diet ? ' active' : ''}`;
+        button.textContent = diet;
+        button.addEventListener('click', () => {
+          state.diet = diet;
+          renderDietChips();
+          renderMeals();
+        });
+        dietChips.appendChild(button);
+      });
+    }
+
+    function filteredMeals() {
+      return meals.filter(meal => {
+        const byType = state.type === 'all' || meal.type === state.type;
+        const byCuisine = state.cuisine === 'All cuisines' || meal.cuisine === state.cuisine;
+        const byDiet = state.diet === 'All' || meal.diet === state.diet;
+        const haystack = `${meal.name} ${meal.description} ${meal.ingredients.join(' ')}`.toLowerCase();
+        const bySearch = !state.search || haystack.includes(state.search.toLowerCase());
+        return byType && byCuisine && byDiet && bySearch;
+      });
+    }
+
+    function card(meal) {
+      return `
+        <article class="meal-card">
+          <div class="meal-top">
+            <div>
+              <h3>${meal.name}</h3>
+              <p>${meal.description}</p>
+            </div>
+          </div>
+          <div class="meta">
+            <span class="tag primary">${meal.cuisine}</span>
+            <span class="tag ${meal.diet === 'Veg' ? 'veg' : 'nonveg'}">${meal.diet}</span>
+            <span class="tag">${meal.type}</span>
+          </div>
+          <div class="info-line muted">
+            <span>${meal.time}</span>
+            <span>•</span>
+            <span>${meal.calories}</span>
+          </div>
+          <div class="top-actions">
+            <button class="btn btn-secondary" type="button" onclick="applySearch('${meal.ingredients[0]}')">More like this</button>
+            <button class="btn btn-primary" type="button" onclick="randomSingle('${meal.type}')">Swap</button>
+          </div>
+        </article>
+      `;
+    }
+
+    function renderMeals() {
+      const list = filteredMeals();
+      resultsCopy.textContent = list.length ? `${list.length} result${list.length === 1 ? '' : 's'}` : 'No results';
+      mealGrid.innerHTML = list.length ? list.map(card).join('') : '<div class="empty">Try Reset or Shuffle.</div>';
+    }
+
+    function shuffleMeals() {
+      const candidates = filteredMeals();
+      if (!candidates.length) {
+        renderMeals();
+        return;
+      }
+      const shuffled = [...candidates].sort(() => Math.random() - 0.5);
+      mealGrid.innerHTML = shuffled.map(card).join('');
+      resultsCopy.textContent = `${shuffled.length} shuffled`;
+    }
+
+    function resetAll() {
+      state.type = 'all';
+      state.cuisine = 'All cuisines';
+      state.diet = 'All';
+      state.search = '';
+      mealType.value = 'all';
+      cuisineSelect.value = 'All cuisines';
+      searchInput.value = '';
+      renderDietChips();
+      renderMeals();
+    }
+
+    window.applySearch = function(term) {
+      state.search = term;
+      searchInput.value = term;
+      renderMeals();
+    }
+
+    window.randomSingle = function(type) {
+      const pool = filteredMeals().filter(meal => meal.type === type);
+      if (!pool.length) return;
+      const picked = pool[Math.floor(Math.random() * pool.length)];
+      mealGrid.innerHTML = card(picked);
+      resultsCopy.textContent = `${type} swap`;
+    }
+
+    mealType.addEventListener('change', e => { state.type = e.target.value; renderMeals(); });
+    cuisineSelect.addEventListener('change', e => { state.cuisine = e.target.value; renderMeals(); });
+    searchInput.addEventListener('input', e => { state.search = e.target.value.trim(); renderMeals(); });
+    document.getElementById('shuffleBtn').addEventListener('click', shuffleMeals);
+    document.getElementById('resetBtn').addEventListener('click', resetAll);
+    document.getElementById('showAllBtn').addEventListener('click', resetAll);
+    document.getElementById('quickVegBtn').addEventListener('click', () => { state.diet = 'Veg'; renderDietChips(); renderMeals(); });
+    document.getElementById('quickNonVegBtn').addEventListener('click', () => { state.diet = 'Non-Veg'; renderDietChips(); renderMeals(); });
+    document.getElementById('quickRandomBtn').addEventListener('click', () => {
+      resetAll();
+      const cuisinePool = cuisines.filter(c => c !== 'All cuisines');
+      state.cuisine = cuisinePool[Math.floor(Math.random() * cuisinePool.length)];
+      state.diet = Math.random() > 0.5 ? 'Veg' : 'Non-Veg';
+      cuisineSelect.value = state.cuisine;
+      renderDietChips();
+      shuffleMeals();
+    });
+
+    (function(){
+      const toggle = document.querySelector('[data-theme-toggle]');
+      const root = document.documentElement;
+      let mode = matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light';
+      root.setAttribute('data-theme', mode);
+      toggle.addEventListener('click', () => {
+        mode = mode === 'dark' ? 'light' : 'dark';
+        root.setAttribute('data-theme', mode);
+      });
+    })();
+
+    renderDietChips();
+    resetAll();
+  </script>
+</body>
+</html>
 
